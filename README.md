@@ -4,19 +4,21 @@ A Claude Code skill that compresses every response to high-signal, low-token out
 
 ## What's here
 
-- `SKILL.md` — the skill itself (frontmatter + instructions). This is the source of truth.
+- `skills/token-zip/SKILL.md` — the skill itself (frontmatter + instructions). This is the source of truth.
+
+This repo follows the [anthropics/skills](https://github.com/anthropics/skills) layout convention (`skills/<name>/SKILL.md`), leaving room to add sibling skills later without restructuring.
 
 ## Installing
 
-Package the folder as a `.skill` file (a zip archive of this folder) and install it in Claude Code, or copy the `token-zip/` folder into your skills directory.
+Package `skills/token-zip/` as a `.skill` file (a zip archive of that folder) and install it in Claude Code, or copy the `skills/token-zip/` folder into your skills directory.
 
 To rebuild the package from this repo:
 
 ```bash
-zip -X -r token-zip.skill token-zip -x "*.DS_Store"
+cd skills && zip -X -r ../token-zip.skill token-zip -x "*.DS_Store"
 ```
 
-(run from the parent directory of this folder)
+(run from the repo root)
 
 ## Maintenance
 
