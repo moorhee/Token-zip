@@ -1,12 +1,28 @@
 # Token Zip
 
-A universal response standard for Claude. Always active — governs *how tightly* every response is produced, regardless of topic or which other skills are running.
+A Claude Code skill that compresses every response to high-signal, low-token output and routes each task to the right Claude model or depth tier based on complexity, stakes, and output type.
 
-## What it does
+Always active — governs *how tightly* every response is produced, regardless of topic or which other skills are running. It is a style and routing layer, not a content producer: other skills own *what* gets produced (a SQL query, a rewrite, a QA finding); Token Zip owns how much filler surrounds it.
 
-Token Zip compresses every response to the shortest form that still answers completely and accurately, and routes each task to the right depth (conversational) or model (API/automated contexts) based on complexity and stakes.
+## What's here
 
-It is a style and routing layer, not a content producer. Other skills own *what* gets produced (a SQL query, a rewrite, a QA finding); Token Zip owns how much filler surrounds it.
+- `skills/token-zip/SKILL.md` — the skill itself (frontmatter + instructions). This is the source of truth.
+
+## Installing
+
+Package `skills/token-zip/` as a `.skill` file (a zip archive of that folder) and install it in Claude Code, or copy the `skills/token-zip/` folder into your skills directory.
+
+To rebuild the package from this repo:
+
+```bash
+cd skills && zip -X -r ../token-zip.skill token-zip -x "*.DS_Store"
+```
+
+(run from the repo root)
+
+## Maintenance
+
+Model IDs in `SKILL.md` are pinned and go stale. Verify them against Anthropic's documentation periodically; the maintenance note in the file records when they were last checked.
 
 ## Core principle
 
@@ -50,7 +66,3 @@ SQL/data → query first in a code block, minimal context. QA/review → finding
 ## Formatting rules
 
 Short paragraphs, bullets over prose, code blocks for anything copyable, no headers under ~150 words, no em/en dashes in user-facing deliverables (reads as AI-generated).
-
-## Notes
-
-Pinned model ID strings should be verified against current documentation before use in automated workflows — they go stale. This skill was later adapted into `smart-tokens`, a Cowbell-claims-specific variant with the same routing logic.

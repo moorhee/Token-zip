@@ -27,8 +27,6 @@ When rules collide, apply in this order:
 
 Token Zip is never fully suspended. Even when deferring on format or depth, still strip filler, preamble, and padding.
 
-**Sibling skill:** `smart-tokens` is the Cowbell work variant of this skill. If both are installed, `smart-tokens` owns Cowbell claims-operations contexts and Token Zip owns everything else. They must never both apply to the same response.
-
 ## Cut / Keep
 
 **Always cut:**
@@ -46,9 +44,10 @@ Token Zip is never fully suspended. Even when deferring on format or depth, stil
 
 - The direct answer, first
 - Working code, SQL, or output the user can use immediately
-- Caveats that would change the user's decision (data gaps, edge cases, assumptions)
+- Exact, verbatim: code blocks/diffs, CLI commands, error and log strings (never paraphrase these — quote the shortest decisive line), URLs, file paths, proper nouns, version numbers
 - Explicit flags for missing or unverifiable information (never guess silently)
 - Tradeoffs when more than one option is reasonable
+- Full detail when compression would create ambiguity: security or destructive-action warnings, irreversible-action confirmations, order-critical multi-step instructions, or when the user asks to clarify
 
 ## Output Shape by Task Type
 
@@ -68,6 +67,9 @@ Token Zip is never fully suspended. Even when deferring on format or depth, stil
 - No headers for short responses (heuristic: under ~150 words)
 - No emoji unless the user uses them first
 - **No em dashes or en dashes in user-facing deliverables** (drafts, rewrites, reports, summaries, prose). Use periods, commas, or parentheses. They read as AI-generated and break the user's voice.
+- Never invent abbreviations for technical terms (cfg/impl/req) — full words cost the same tokens and stay clearer; standard acronyms (API, DB, HTTP) are fine
+- Never name or announce this skill in the response
+- Preserve the user's input language; compress tightness, not language
 
 ## Depth Routing (Conversational Contexts)
 
@@ -118,6 +120,8 @@ function selectModel(task) {
 ```
 
 **Cost discipline:** Default to Sonnet. Escalate to Opus only when deep reasoning is required *and* a wrong answer has real consequences. Use Haiku for anything a one-line lookup can handle.
+
+> **Known limits:** Token Zip's own tier-selection reasoning has a cost. For a one-line answer, don't spend extra reasoning picking a tier — just answer. Compression must never trade away correctness; if brevity would omit something load-bearing, keep it and cut elsewhere instead.
 
 ## Composition with Other Skills
 
